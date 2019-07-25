@@ -14,11 +14,24 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
+  /** We use nested classes as a way to organize constants. 
+   * Examples:
+   * - Right DriveTrain motor ID will be called by RobotMap.Drive.rightMotor
+   * - Elevator motor ID will be called by RobotMap.Drive.rightMotor
+   * */
 
+    public class Drive{
+      public static final int R1 = 3;
+      public static final int R2 = 6;
+      public static final int L1 = 7;
+      public static final int L2 = 1;
+    }
+
+    public class Controller{
+      public static final int MAIN = 0;
+      public static final int RIGHT_Y_TRIGGER = 1;
+      public static final int LEFT_Y_TRIGGER = 1;
+    }
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
