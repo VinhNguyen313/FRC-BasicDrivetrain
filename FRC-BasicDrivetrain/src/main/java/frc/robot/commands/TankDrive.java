@@ -25,8 +25,11 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.setRightSpeed(Math.pow(Robot.oi.getStickValue(RobotMap.Controller.RIGHT_Y_TRIGGER),2));
-    Robot.drive.setLeftSpeed(Math.pow(Robot.oi.getStickValue(RobotMap.Controller.LEFT_Y_TRIGGER),2));
+    double rightSpeed = Robot.oi.getStickValue(RobotMap.Controller.RIGHT_Y_TRIGGER);
+    double leftSpeed = Robot.oi.getStickValue(RobotMap.Controller.LEFT_Y_TRIGGER);
+    
+    Robot.drive.setRightSpeed(Math.copySign(rightSpeed*rightSpeed,rightSpeed));
+    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*rightSpeed,leftSpeed));
   }
 
   // Make this return true when this Command no longer needs to run execute()
