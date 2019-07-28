@@ -33,6 +33,11 @@ public class DriveTrain extends Subsystem {
     r1 = new TalonSRX(RobotMap.Drive.R1);
     r2 = new TalonSRX(RobotMap.Drive.R2);
 
+    /* The left motors are inverted because for 
+     *  the Robot to move in one direction, the motors on different sides
+     *   have to spin in opposite directions. This can be done by either
+     *    inverting the left motors, or the right motors.
+     * */
     l1.setInverted(true);
     l2.setInverted(true);
 
@@ -43,14 +48,23 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    /* This makes sure that the DriveTrain ALWAYS run the TankDrive command.
+     * We always want the robot to be able to drive.
+     * (The TankDrive command instructs the robot WHEN to do WHAT) */
     setDefaultCommand(new TankDrive());
   }
 
   public void setRightSpeed(double speed){
+      /* This sets the speed at which the right motors will run.
+       * There are differnet ControlMode's, but in this lesson, 
+       * we use PercentOutput for the sake of simplicty*/
       r1.set(ControlMode.PercentOutput,speed);
   }
 
   public void setLeftSpeed(double speed){
+          /* This sets the speed at which the left motors will run.
+       * There are differnet ControlMode's, but in this lesson, 
+       * we use PercentOutput for the sake of simplicty*/
       l1.set(ControlMode.PercentOutput,speed);
   }
 }
