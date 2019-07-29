@@ -14,10 +14,17 @@ import edu.wpi.first.wpilibj.XboxController;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+  
   private  XboxController main = new XboxController(RobotMap.Controller.MAIN);
+  /* RobotMap.Controller.MAIN is the ID of the controller, 
+   * you can check this using Driver Station 
+   * */
 
-public double getStickValue(int port) {
-	return main.getRawAxis(port);
-}
+  //since 'main' is private, we need a public method to access the values of the joysticks.
+  public double getStickValue(int port) {
+     return main.getRawAxis(port); 
+  }
   
 }
+
+

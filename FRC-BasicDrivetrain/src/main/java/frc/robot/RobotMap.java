@@ -22,16 +22,18 @@ public class RobotMap {
    * */
 
     public class Drive{
-      public static final int R1 = 3;
-      public static final int R2 = 6;
-      public static final int L1 = 7;
+      //These values can be found by looking at the wiring of your actual robot.
+      public static final int R1 = 9;
+      public static final int R2 = 8;
+      public static final int L1 = 0;
       public static final int L2 = 1;
     }
 
     public class Controller{
+      //These values can be found using your Driver Station.
       public static final int MAIN = 0;
-      public static final int RIGHT_Y_TRIGGER = 1;
-      public static final int LEFT_Y_TRIGGER = 1;
+      public static final int RIGHT_Y_STICK = 10;
+      public static final int LEFT_Y_STICK = 9;
     }
 
 }

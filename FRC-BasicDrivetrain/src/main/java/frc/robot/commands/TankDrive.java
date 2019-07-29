@@ -19,17 +19,19 @@ public class TankDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double rightSpeed = Robot.oi.getStickValue(RobotMap.Controller.RIGHT_Y_TRIGGER);
-    double leftSpeed = Robot.oi.getStickValue(RobotMap.Controller.LEFT_Y_TRIGGER);
+    //these 2 variables store the value of the sticks on the controller.
+    double rightSpeed = Robot.oi.getStickValue(RobotMap.Controller.RIGHT_Y_STICK);
+    double leftSpeed = Robot.oi.getStickValue(RobotMap.Controller.LEFT_Y_STICK);
     
+    //We use the square of input from the controller to make driving smoother at low speeds.
+    //And since the input is squared, we need Math.copySign to preserve the sign of the inputs.
     Robot.drive.setRightSpeed(Math.copySign(rightSpeed*rightSpeed,rightSpeed));
-    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*rightSpeed,leftSpeed));
+    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*leftSpeed,leftSpeed));
   }
 
   // Make this return true when this Command no longer needs to run execute()
