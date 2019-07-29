@@ -33,13 +33,12 @@ public class DriveTrain extends Subsystem {
     r1 = new TalonSRX(RobotMap.Drive.R1);
     r2 = new TalonSRX(RobotMap.Drive.R2);
 
-    /* The left motors are inverted because for 
+    /* The right motors are inverted because for 
      *  the Robot to move in one direction, the motors on different sides
-     *   have to spin in opposite directions. This can be done by either
-     *    inverting the left motors, or the right motors.
+     *   have to spin in opposite directions.
      * */
-    l1.setInverted(true);
-    l2.setInverted(true);
+    r1.setInverted(true);
+    r2.setInverted(true);
 
     // These 2 lines make sure the motors on the same side are spinning at the same speed.
     l2.follow(l1);

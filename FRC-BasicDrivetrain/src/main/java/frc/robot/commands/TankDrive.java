@@ -25,13 +25,13 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     //these 2 variables store the value of the sticks on the controller.
-    double rightSpeed = Robot.oi.getStickValue(RobotMap.Controller.RIGHT_Y_STICK);
-    double leftSpeed = Robot.oi.getStickValue(RobotMap.Controller.LEFT_Y_STICK);
+    double rightSpeed = Robot.oi.getRightYStick();
+    double leftSpeed = Robot.oi.getLeftYStick();
     
     //We use the square of input from the controller to make driving smoother at low speeds.
     //And since the input is squared, we need Math.copySign to preserve the sign of the inputs.
-    Robot.drive.setRightSpeed(Math.copySign(rightSpeed*rightSpeed,rightSpeed));
-    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*leftSpeed,leftSpeed));
+    Robot.drive.setRightSpeed(Math.copySign(rightSpeed*rightSpeed, rightSpeed));
+    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*leftSpeed, leftSpeed));
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -32,8 +32,7 @@ public class RobotMap {
     public class Controller{
       //These values can be found using your Driver Station.
       public static final int MAIN = 0;
-      public static final int RIGHT_Y_STICK = 10;
-      public static final int LEFT_Y_STICK = 9;
+     
     }
 
 }
