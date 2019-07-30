@@ -7,9 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class TankDrive extends Command {
   public TankDrive() {
@@ -25,8 +25,8 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     //these 2 variables store the value of the sticks on the controller.
-    double rightSpeed = Robot.oi.getRightYStick();
-    double leftSpeed = Robot.oi.getLeftYStick();
+    double rightSpeed = Robot.oi.main.getY(Hand.kRight);
+    double leftSpeed = Robot.oi.main.getY(Hand.kLeft);
     
     //We use the square of input from the controller to make driving smoother at low speeds.
     //And since the input is squared, we need Math.copySign to preserve the sign of the inputs.
