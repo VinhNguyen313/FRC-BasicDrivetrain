@@ -20,7 +20,6 @@ public class RobotMap {
    * - Right DriveTrain motor ID will be called by RobotMap.Drive.rightMotor
    * - Elevator motor ID will be called by RobotMap.Drive.rightMotor
    * */
-
     public class Drive{
       //These values can be found by looking at the wiring of your actual robot.
       public static final int R1 = 9;

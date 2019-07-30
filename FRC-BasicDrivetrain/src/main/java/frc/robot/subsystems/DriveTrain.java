@@ -51,7 +51,7 @@ public class DriveTrain extends Subsystem {
     /* This makes sure that the DriveTrain ALWAYS run the TankDrive command.
      * We always want the robot to be able to drive.
      * */
-    
+  
     //Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
     setDefaultCommand(new ArcadeDrive());
     //setDefaultCommand(new TankDrive());
