@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,6 +21,16 @@ public class OI {
    * you can check this using Driver Station 
    * */
   
+   public double getDriveValue(){
+      return (main.getTriggerAxis(Hand.kRight) - main.getTriggerAxis(Hand.kLeft));
+   }
+
+   public double getTurnValue(){
+      /* the return value is negated because the getX(Hand hand) method returns a 
+       * positive number toward the left.
+       */
+      return -main.getX(Hand.kLeft);
+   }
 }
 
 

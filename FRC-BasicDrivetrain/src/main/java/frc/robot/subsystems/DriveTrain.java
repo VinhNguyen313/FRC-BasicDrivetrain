@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 
 /**
@@ -49,8 +50,11 @@ public class DriveTrain extends Subsystem {
   public void initDefaultCommand() {
     /* This makes sure that the DriveTrain ALWAYS run the TankDrive command.
      * We always want the robot to be able to drive.
-     * (The TankDrive command instructs the robot WHEN to do WHAT) */
-    setDefaultCommand(new TankDrive());
+     * */
+    
+    //Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
+    setDefaultCommand(new ArcadeDrive());
+    //setDefaultCommand(new TankDrive());
   }
 
   public void setRightSpeed(double speed){
