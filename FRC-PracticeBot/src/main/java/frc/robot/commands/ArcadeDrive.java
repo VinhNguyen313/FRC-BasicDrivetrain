@@ -27,7 +27,6 @@ public class ArcadeDrive extends Command {
       * rather than increases
       * one and decreases the other at the same time.
       * */
-
     double leftSpeed;
     double rightSpeed;
 
@@ -54,8 +53,6 @@ public class ArcadeDrive extends Command {
         
     Robot.drive.setLeftSpeed(leftSpeed);
     Robot.drive.setRightSpeed(rightSpeed);
-
-    
   }
 
   // Make this return true when this Command no longer needs to run execute()

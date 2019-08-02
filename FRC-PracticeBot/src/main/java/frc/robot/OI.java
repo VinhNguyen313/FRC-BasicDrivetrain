@@ -24,7 +24,7 @@ public class OI {
    public double getDriveValue(){
       return (main.getTriggerAxis(Hand.kRight) - main.getTriggerAxis(Hand.kLeft));
    }
-
+   
    public double getTurnValue(){
       /* the return value is negated because the getX(Hand hand) method returns a 
        * positive number toward the left.
