@@ -64,11 +64,15 @@ public class ArcadeDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.drive.setLeftSpeed(0);
+    Robot.drive.setRightSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.drive.setLeftSpeed(0);
+    Robot.drive.setRightSpeed(0);
   }
 }
