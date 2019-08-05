@@ -24,23 +24,27 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    /* These 2 variables store the value of the sticks on the controller.
-     * it's basically getting the input value from the 'main' controller of the oi
-     * object in Robot.java.
-     * */
+    /*
+     * These 2 variables store the value of the sticks on the controller. it's
+     * basically getting the input value from the 'main' controller of the oi object
+     * in Robot.java.
+     */
     double rightSpeed = Robot.oi.main.getY(Hand.kRight);
     double leftSpeed = Robot.oi.main.getY(Hand.kLeft);
-    
-    //We use the square of input from the controller to make driving smoother at low speeds.
-    //And since the input is squared, we need Math.copySign to preserve the sign of the inputs.
-    Robot.drive.setRightSpeed(Math.copySign(rightSpeed*rightSpeed, rightSpeed));
-    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed*leftSpeed, leftSpeed));
+
+    // We use the square of input from the controller to make driving smoother at
+    // low speeds.
+    // And since the input is squared, we need Math.copySign to preserve the sign of
+    // the inputs.
+    Robot.drive.setRightSpeed(Math.copySign(rightSpeed * rightSpeed, rightSpeed));
+    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed * leftSpeed, leftSpeed));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    // We never want the robot to stop moving, thus this method always returns false.
+    // We never want the robot to stop moving, thus this method always returns
+    // false.
     return false;
   }
 

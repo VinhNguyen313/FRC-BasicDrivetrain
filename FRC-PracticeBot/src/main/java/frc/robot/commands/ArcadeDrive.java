@@ -23,34 +23,34 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-     /* copied from RobotDrive class. essentially lowers the speed of one motor first, 
-      * rather than increases
-      * one and decreases the other at the same time.
-      * */
+    /*
+     * copied from RobotDrive class. essentially lowers the speed of one motor
+     * first, rather than increases one and decreases the other at the same time.
+     */
     double leftSpeed;
     double rightSpeed;
 
     double move = Robot.oi.getDriveValue();
     double rotate = Robot.oi.getTurnValue();
-      
+
     if (move > 0.0) {
       if (rotate < 0.0) {
-          leftSpeed = move + rotate;
-          rightSpeed = Math.max(move, -rotate);
+        leftSpeed = move + rotate;
+        rightSpeed = Math.max(move, -rotate);
       } else {
-          leftSpeed = Math.max(move, rotate);
-          rightSpeed = move - rotate;
-        }
+        leftSpeed = Math.max(move, rotate);
+        rightSpeed = move - rotate;
+      }
     } else {
-        if (rotate < 0.0) {
-          leftSpeed = -Math.max(-move, -rotate);
-          rightSpeed = move - rotate;
-        } else {
-          leftSpeed = move + rotate;
-          rightSpeed = -Math.max(-move, rotate);
-          }
+      if (rotate < 0.0) {
+        leftSpeed = -Math.max(-move, -rotate);
+        rightSpeed = move - rotate;
+      } else {
+        leftSpeed = move + rotate;
+        rightSpeed = -Math.max(-move, rotate);
+      }
     }
-        
+
     Robot.drive.setLeftSpeed(leftSpeed);
     Robot.drive.setRightSpeed(rightSpeed);
   }
