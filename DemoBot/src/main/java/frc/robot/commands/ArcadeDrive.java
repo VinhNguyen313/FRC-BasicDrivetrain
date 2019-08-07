@@ -34,7 +34,7 @@ public class ArcadeDrive extends Command {
     double rotate = Robot.oi.getTurnValue();
 
     double maxInput = Math.copySign(Math.max(Math.abs(move), Math.abs(rotate)), move);
-    
+
     if (move >= 0.0) {
       if (rotate >= 0.0) {
         leftSpeed = maxInput;
@@ -52,6 +52,12 @@ public class ArcadeDrive extends Command {
         rightSpeed = move - rotate;
       }
     }
+
+    //deadband
+    if (Math.abs(leftSpeed) < .02)
+      leftSpeed = 0;
+    if (Math.abs(rightSpeed) < .02)
+      rightSpeed = 0;
 
     Robot.drive.setLeftSpeed(leftSpeed);
     Robot.drive.setRightSpeed(rightSpeed);

@@ -29,8 +29,10 @@ public class TankDrive extends Command {
      * basically getting the input value from the 'main' controller of the oi object
      * in Robot.java.
      */
-    double rightSpeed = -Robot.oi.main.getY(Hand.kRight);
-    double leftSpeed = -Robot.oi.main.getY(Hand.kLeft);
+       
+    //deadband
+    double rightSpeed = Math.abs(Robot.oi.main.getY(Hand.kRight)) < .02 ? 0 : -Robot.oi.main.getY(Hand.kRight);
+    double leftSpeed = Math.abs(Robot.oi.main.getY(Hand.kLeft)) < .02 ? 0 : -Robot.oi.main.getY(Hand.kLeft);
 
     // We use the square of input from the controller to make driving smoother at
     // low speeds.
