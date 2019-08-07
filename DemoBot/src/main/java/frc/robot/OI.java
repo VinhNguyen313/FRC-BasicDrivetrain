@@ -26,9 +26,6 @@ public class OI {
    }
    
    public double getTurnValue(){
-      /* the return value is negated because the getX(Hand hand) method returns a 
-       * positive number toward the left.
-       */
       return main.getX(Hand.kLeft);
    }
 }
