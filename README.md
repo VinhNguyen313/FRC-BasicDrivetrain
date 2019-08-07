@@ -1,3 +1,3 @@
 ## FRC-BasicDrivetrain
 
-Basic TankDrive code using TalonSRXs and XboxController's joysticks.
+Basic TankDrive and ArcadeDrive code using TalonSRXs and XboxController.
