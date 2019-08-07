@@ -57,7 +57,7 @@ public class DriveTrain extends Subsystem {
 
     // Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
     setDefaultCommand(new ArcadeDrive());
-    // setDefaultCommand(new TankDrive());
+    //setDefaultCommand(new TankDrive());
   }
 
   public void setRightSpeed(double speed) {
