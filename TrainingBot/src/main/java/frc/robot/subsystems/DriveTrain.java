@@ -8,32 +8,40 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.TankDrive;
+import frc.robot.commands.DriveCommand;
 
 /**
  * This substystem is used to model the characteristics and capabilities of the
  * drive train of the robot.
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends PIDSubsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   // Must have CTRE libraries installed for these to work.
-  TalonSRX l1;
-  TalonSRX r1;
-  TalonSRX l2;
-  TalonSRX r2;
+  WPI_TalonSRX l1;
+  WPI_TalonSRX r1;
+  WPI_TalonSRX l2;
+  WPI_TalonSRX r2;
+  WPI_TalonSRX l3;
+  WPI_TalonSRX r3;
+
+  DifferentialDrive curvatureDrive;
 
   public DriveTrain() {
-    l1 = new TalonSRX(RobotMap.Drive.L1);
-    l2 = new TalonSRX(RobotMap.Drive.L2);
-    r1 = new TalonSRX(RobotMap.Drive.R1);
-    r2 = new TalonSRX(RobotMap.Drive.R2);
+    super("Drive", 1, 2, 3);
+    l1 = new WPI_TalonSRX(RobotMap.Drive.L1);
+    l2 = new WPI_TalonSRX(RobotMap.Drive.L2);
+    l3 = new WPI_TalonSRX(RobotMap.Drive.L3);
+
+    r1 = new WPI_TalonSRX(RobotMap.Drive.R1);
+    r2 = new WPI_TalonSRX(RobotMap.Drive.R2);
+    r3 = new WPI_TalonSRX(RobotMap.Drive.R3);
 
     /*
      * The right motors are inverted because for the Robot to move in one direction,
@@ -41,11 +49,16 @@ public class DriveTrain extends Subsystem {
      */
     r1.setInverted(true);
     r2.setInverted(true);
+    r3.setInverted(true);
 
     // These 2 lines make sure the motors on the same side are spinning at the same
     // speed.
     l2.follow(l1);
+    l3.follow(l1);
+
     r2.follow(r1);
+    r3.follow(r1);
+
   }
 
   @Override
@@ -56,8 +69,8 @@ public class DriveTrain extends Subsystem {
      */
 
     // Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
-    setDefaultCommand(new ArcadeDrive());
-    //setDefaultCommand(new TankDrive());
+    setDefaultCommand(new DriveCommand());
+    // setDefaultCommand(new TankDrive());
   }
 
   public void setRightSpeed(double speed) {
@@ -76,5 +89,16 @@ public class DriveTrain extends Subsystem {
      * simplicty
      */
     l1.set(ControlMode.PercentOutput, speed);
+  }
+
+  @Override
+  protected double returnPIDInput() {
+    return 0;
+  }
+
+  @Override
+  protected void usePIDOutput(double output) {
+    l1.pidWrite(output);
+    r1.pidWrite(output);
   }
 }

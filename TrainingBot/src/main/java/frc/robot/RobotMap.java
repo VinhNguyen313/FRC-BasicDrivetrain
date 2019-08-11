@@ -24,8 +24,12 @@ public class RobotMap {
     // These values can be found by looking at the wiring of your actual robot.
     public static final int R1 = 10;
     public static final int R2 = 11;
-    public static final int L1 = 5;
+    public static final int R3 = 12;
+
+    public static final int L1 = 4;
     public static final int L2 = 6;
+    public static final int L3 = 13;
+
   }
 
   public static class Controller {
