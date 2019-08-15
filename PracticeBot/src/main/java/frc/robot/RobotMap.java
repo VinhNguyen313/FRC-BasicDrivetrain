@@ -38,4 +38,12 @@ public class RobotMap {
 
   }
 
+  public static class Constants{
+    public static final int ticksPerInch = 55;//54.7725
+  }
+
+  public static class Pneumatics{
+    public static final int intake = 1;
+  }
+
 }

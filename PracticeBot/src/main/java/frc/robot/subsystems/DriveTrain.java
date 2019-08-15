@@ -8,9 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveCommand;
@@ -19,22 +23,20 @@ import frc.robot.commands.DriveCommand;
  * This substystem is used to model the characteristics and capabilities of the
  * drive train of the robot.
  */
-public class DriveTrain extends PIDSubsystem {
+public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   // Must have CTRE libraries installed for these to work.
   WPI_TalonSRX l1;
-  WPI_TalonSRX r1;
   WPI_TalonSRX l2;
-  WPI_TalonSRX r2;
   WPI_TalonSRX l3;
+
+  WPI_TalonSRX r1;
+  WPI_TalonSRX r2;
   WPI_TalonSRX r3;
 
-  DifferentialDrive curvatureDrive;
-
   public DriveTrain() {
-    super("Drive", 1, 2, 3);
     l1 = new WPI_TalonSRX(RobotMap.Drive.L1);
     l2 = new WPI_TalonSRX(RobotMap.Drive.L2);
     l3 = new WPI_TalonSRX(RobotMap.Drive.L3);
@@ -59,6 +61,7 @@ public class DriveTrain extends PIDSubsystem {
     r2.follow(r1);
     r3.follow(r1);
 
+    initSensors();
   }
 
   @Override
@@ -91,14 +94,70 @@ public class DriveTrain extends PIDSubsystem {
     l1.set(ControlMode.PercentOutput, speed);
   }
 
-  @Override
-  protected double returnPIDInput() {
-    return 0;
+  public void setStraightPosition(double inches) {
+    r1.set(ControlMode.Position, inches);
+    l1.set(ControlMode.Position, inches);
   }
 
-  @Override
-  protected void usePIDOutput(double output) {
-    l1.pidWrite(output);
-    r1.pidWrite(output);
+  public void initSensors() {
+    l1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    l1.setSensorPhase(true);
+    l1.setSelectedSensorPosition(0);
+    l1.configNominalOutputReverse(0, 0);
+    l1.configPeakOutputForward(1, 0);
+    l1.configPeakOutputReverse(-1, 0);
+    l1.setNeutralMode(NeutralMode.Brake);
+
+    r1.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    r1.setSensorPhase(true);
+    r1.setSelectedSensorPosition(0);
+    r1.configNominalOutputReverse(0, 0);
+    r1.configPeakOutputForward(1, 0);
+    r1.configPeakOutputReverse(-1, 0);
+    r1.setNeutralMode(NeutralMode.Brake);
+
+    // 0-> slotID
+    r1.configAllowableClosedloopError(0, RobotMap.Constants.ticksPerInch);
+    l1.configAllowableClosedloopError(0, RobotMap.Constants.ticksPerInch);
+
+  }
+
+  public void configPID(double kP, double kI, double kD) {
+    r1.config_kP(0, kP);
+    r1.config_kI(0, kI);
+    r1.config_kD(0, kD);
+
+    l1.config_kP(0, kP);
+    l1.config_kI(0, kI);
+    l1.config_kD(0, kD);
+
+    // /**
+    // * Grab the 360 degree position of the MagEncoder's absolute
+    // * position, and intitally set the relative sensor to match.
+    // */
+    // int absolutePosition = _talon.getSensorCollection().getPulseWidthPosition();
+
+    // /* Mask out overflows, keep bottom 12 bits */
+    // absolutePosition &= 0xFFF;
+    // if (Constants.kSensorPhase) { absolutePosition *= -1; }
+    // if (Constants.kMotorInvert) { absolutePosition *= -1; }
+
+    // /* Set the quadrature (relative) sensor to match absolute */
+    // _talon.setSelectedSensorPosition(absolutePosition, Constants.kPIDLoopIdx,
+    // Constants.kTimeoutMs);
+  }
+
+  public double getClosedLoopTarget(Hand hand) {
+    if (hand.equals(Hand.kLeft))
+      return l1.getClosedLoopTarget();
+    else
+      return r1.getClosedLoopTarget();
+  }
+
+  public double getCurrentPosition(Hand hand) {
+    if (hand.equals(Hand.kLeft))
+      return l1.getSelectedSensorPosition();
+    else
+      return r1.getSelectedSensorPosition();
   }
 }

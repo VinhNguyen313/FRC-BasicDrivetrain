@@ -9,9 +9,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class DriveCommand extends Command {
+  private double move;
+  private double rotate;
+
   public DriveCommand() {
     requires(Robot.drive);
   }
@@ -25,6 +29,8 @@ public class DriveCommand extends Command {
   @Override
   protected void execute() {
     ArcadeDrive();
+    // TankDrive();
+    // CurvatureDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -57,8 +63,8 @@ public class DriveCommand extends Command {
     double leftSpeed;
     double rightSpeed;
 
-    double move = applyDeadband(Robot.oi.getDriveValue(), .02);
-    double rotate = applyDeadband(Robot.oi.getTurnValue(), .02);
+    move = applyDeadband(Robot.oi.getDriveValue(), .02);
+    rotate = applyDeadband(Robot.oi.getTurnValue(), .02);
 
     move = Math.copySign(move * move, move);
     rotate = Math.copySign(rotate * rotate, rotate);
@@ -82,14 +88,16 @@ public class DriveCommand extends Command {
         rightSpeed = move - rotate;
       }
     }
-
+    SmartDashboard.putNumber("Left Speed", leftSpeed);
     Robot.drive.setLeftSpeed(leftSpeed);
+
+    SmartDashboard.putNumber("Right Speed", rightSpeed);
     Robot.drive.setRightSpeed(rightSpeed);
   }
 
   protected void CurvatureDrive() {
-    double move = applyDeadband(Robot.oi.getDriveValue(), .02);
-    double rotate = applyDeadband(Robot.oi.getTurnValue(), .02);
+    move = applyDeadband(Robot.oi.getDriveValue(), .02);
+    rotate = applyDeadband(Robot.oi.getTurnValue(), .02);
 
     move = Math.copySign(move * move, move);
     rotate = Math.copySign(rotate * rotate, rotate);
@@ -149,7 +157,10 @@ public class DriveCommand extends Command {
       rightMotorOutput /= maxMagnitude;
     }
 
+    SmartDashboard.putNumber("Left Speed", leftMotorOutput);
     Robot.drive.setRightSpeed(leftMotorOutput);
+
+    SmartDashboard.putNumber("Right Speed", rightMotorOutput);
     Robot.drive.setLeftSpeed(rightMotorOutput);
   }
 
@@ -166,8 +177,14 @@ public class DriveCommand extends Command {
     // low speeds.
     // And since the input is squared, we need Math.copySign to preserve the sign of
     // the inputs.
-    Robot.drive.setRightSpeed(Math.copySign(rightSpeed * rightSpeed, rightSpeed));
-    Robot.drive.setLeftSpeed(Math.copySign(leftSpeed * leftSpeed, leftSpeed));
+    rightSpeed = Math.copySign(rightSpeed * rightSpeed, rightSpeed);
+    leftSpeed = Math.copySign(leftSpeed * leftSpeed, leftSpeed);
+
+    SmartDashboard.putNumber("Right Speed", rightSpeed);
+    Robot.drive.setRightSpeed(rightSpeed);
+
+    SmartDashboard.putNumber("Left Speed", leftSpeed);
+    Robot.drive.setLeftSpeed(leftSpeed);
   }
 
   // Copied from WPI's RobotBase
