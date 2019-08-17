@@ -13,11 +13,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.drive.ArcadeDrive;;
 
 /**
  * This substystem is used to model the characteristics and capabilities of the
@@ -72,7 +70,7 @@ public class DriveTrain extends Subsystem {
      */
 
     // Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
-    setDefaultCommand(new DriveCommand());
+    setDefaultCommand(new ArcadeDrive());
     // setDefaultCommand(new TankDrive());
   }
 

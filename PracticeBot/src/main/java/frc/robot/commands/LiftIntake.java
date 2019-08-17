@@ -9,16 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.util.Direction;
 
 /**
  * Add your docs here.
  */
-public class LiftDownIntake extends InstantCommand {
+public class LiftIntake extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public LiftDownIntake() {
+  Direction dir;
+
+  public LiftIntake(Direction direction) {
     super();
+    dir = direction;
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -26,7 +30,10 @@ public class LiftDownIntake extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.intake.liftDown();
+    if (dir.equals(Direction.Down))
+      Robot.intake.liftDown();
+    else if (dir.equals(Direction.Up))
+      Robot.intake.liftUp();
   }
 
 }

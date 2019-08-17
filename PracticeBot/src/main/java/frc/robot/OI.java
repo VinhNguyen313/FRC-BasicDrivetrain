@@ -9,9 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.LiftDownIntake;
-import frc.robot.commands.LiftUpIntake;
+import frc.robot.commands.LiftIntake;
 import frc.robot.commands.PIDPositionDrive;
+import frc.robot.util.Direction;
 import frc.robot.util.VortxController;
 
 /**
@@ -29,8 +29,8 @@ public class OI {
 
    public OI() {
       main.a.whenPressed(new PIDPositionDrive(100, .5, .5, .5));
-      main.x.whenPressed(new LiftDownIntake());
-      main.y.whenPressed(new LiftUpIntake());
+      main.x.whenPressed(new LiftIntake(Direction.Down));
+      main.y.whenPressed(new LiftIntake(Direction.Up));
    }
 
    public void updateY() {
