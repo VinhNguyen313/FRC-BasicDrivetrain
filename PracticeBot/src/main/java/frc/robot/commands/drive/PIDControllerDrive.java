@@ -5,28 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PIDPositionDrive extends Command {
-  public double kP, kI, kD, inches;
+public class PIDControllerDrive extends Command {
+  double inches;
 
-  public PIDPositionDrive(double inches, double kP, double kI, double kD) {
+  public PIDControllerDrive(double inches) {
     requires(Robot.drive);
-    this.inches = inches;
-    this.kP = kP;
-    this.kI = kI;
-    this.kD = kD;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.drive.configPID(kP, kI, kD);
-    Robot.drive.setStraightPosition(inches);
+    Robot.drive.pidController.setSetpoint(inches);
+    Robot.drive.pidController.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -37,13 +32,7 @@ public class PIDPositionDrive extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double leftError = Math
-        .abs(Robot.drive.getCurrentPosition(Hand.kLeft) - Robot.drive.getClosedLoopTarget(Hand.kLeft));
-    double rightError = Math
-        .abs(Robot.drive.getCurrentPosition(Hand.kRight) - Robot.drive.getClosedLoopTarget(Hand.kRight));
-    if (leftError < 500 && rightError < 500)
-      return true;
-    return false;
+    return Robot.drive.pidController.onTarget();
   }
 
   // Called once after isFinished returns true
@@ -57,5 +46,6 @@ public class PIDPositionDrive extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

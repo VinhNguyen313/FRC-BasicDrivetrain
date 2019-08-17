@@ -12,6 +12,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,19 +26,10 @@ import frc.robot.commands.drive.ArcadeDrive;;
  * This substystem is used to model the characteristics and capabilities of the
  * drive train of the robot.
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private boolean isQuickTurn = false;
-
-
-	public boolean getIsQuickTurn() {
-		return this.isQuickTurn;
-	}
-
-	public void setIsQuickTurn(boolean isQuickTurn) {
-		this.isQuickTurn = isQuickTurn;
-	}
 
   // Must have CTRE libraries installed for these to work.
   WPI_TalonSRX l1;
@@ -44,6 +39,8 @@ public class DriveTrain extends Subsystem {
   WPI_TalonSRX r1;
   WPI_TalonSRX r2;
   WPI_TalonSRX r3;
+
+  public PIDController pidController;
 
   public DriveTrain() {
     l1 = new WPI_TalonSRX(RobotMap.Drive.L1);
@@ -70,6 +67,11 @@ public class DriveTrain extends Subsystem {
     r2.follow(r1);
     r3.follow(r1);
 
+    pidController = new PIDController(.2, .2, .2, this, this);
+    pidController.setAbsoluteTolerance(1);
+    pidController.setOutputRange(-.5, .5);
+    pidController.disable();
+    
     initSensors();
   }
 
@@ -171,7 +173,38 @@ public class DriveTrain extends Subsystem {
       return r1.getSelectedSensorPosition();
   }
 
-  public void log(){
+  public void log() {
     SmartDashboard.putBoolean("QuickTurnMode", isQuickTurn);
   }
+
+  public boolean getIsQuickTurn() {
+    return this.isQuickTurn;
+  }
+
+  public void setIsQuickTurn(boolean isQuickTurn) {
+    this.isQuickTurn = isQuickTurn;
+  }
+
+  //PIDController
+  @Override
+  public void pidWrite(double output) {
+    l1.set(ControlMode.PercentOutput, output);
+    r1.set(ControlMode.PercentOutput, output);
+  }
+
+  @Override
+  public void setPIDSourceType(PIDSourceType pidSource) {
+
+  }
+
+  @Override
+  public PIDSourceType getPIDSourceType() {
+    return PIDSourceType.kDisplacement;
+  }
+
+  @Override
+  public double pidGet() {
+    return (r1.getSelectedSensorPosition() + l1.getSelectedSensorPosition()) / 2;
+  }
+
 }

@@ -8,9 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.LiftIntake;
-import frc.robot.commands.PIDPositionDrive;
+import frc.robot.commands.drive.PIDControllerDrive;
+import frc.robot.commands.drive.PIDPositionDrive;
 import frc.robot.commands.drive.ToggleQuickTurn;
 import frc.robot.util.Direction;
 import frc.robot.util.VortxController;
@@ -32,6 +32,7 @@ public class OI {
       main.a.whenPressed(new PIDPositionDrive(100, .5, .5, .5));
       main.x.whenPressed(new LiftIntake(Direction.Down));
       main.y.whenPressed(new LiftIntake(Direction.Up));
+      main.start.whenPressed(new PIDControllerDrive(10));
    }
 
    public double getDriveValue() {
