@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.LiftIntake;
 import frc.robot.commands.PIDPositionDrive;
+import frc.robot.commands.drive.ToggleQuickTurn;
 import frc.robot.util.Direction;
 import frc.robot.util.VortxController;
 
@@ -19,7 +20,6 @@ import frc.robot.util.VortxController;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-   public boolean isYToggled = false;
 
    /*
     * RobotMap.Controller.MAIN is the ID of the controller, you can check this
@@ -28,19 +28,10 @@ public class OI {
    public VortxController main = new VortxController(RobotMap.Controller.MAIN);
 
    public OI() {
+      main.b.whenPressed(new ToggleQuickTurn());
       main.a.whenPressed(new PIDPositionDrive(100, .5, .5, .5));
       main.x.whenPressed(new LiftIntake(Direction.Down));
       main.y.whenPressed(new LiftIntake(Direction.Up));
-   }
-
-   public void updateY() {
-      if (main.getYButtonPressed())
-         isYToggled = !isYToggled;
-
-   }
-
-   public boolean getYToggle() {
-      return isYToggled;
    }
 
    public double getDriveValue() {
@@ -51,7 +42,4 @@ public class OI {
       return main.getX(Hand.kLeft);
    }
 
-   public void log() {
-      SmartDashboard.putBoolean("isYToggled (Quick Turn Mode)", isYToggled);
-   }
 }

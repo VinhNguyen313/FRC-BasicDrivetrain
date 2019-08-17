@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.ArcadeDrive;;
 
@@ -24,6 +25,16 @@ import frc.robot.commands.drive.ArcadeDrive;;
 public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private boolean isQuickTurn = false;
+
+
+	public boolean getIsQuickTurn() {
+		return this.isQuickTurn;
+	}
+
+	public void setIsQuickTurn(boolean isQuickTurn) {
+		this.isQuickTurn = isQuickTurn;
+	}
 
   // Must have CTRE libraries installed for these to work.
   WPI_TalonSRX l1;
@@ -65,13 +76,14 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     /*
-     * This makes sure that the DriveTrain ALWAYS run the TankDrive command. We
+     * This makes sure that the DriveTrain ALWAYS run the __Drive() command. We
      * always want the robot to be able to drive.
      */
 
-    // Pick either TankDrive() or ArcadeDrive(), comment the unpicked out.
+    // Pick one , comment the unpicked out.
     setDefaultCommand(new ArcadeDrive());
     // setDefaultCommand(new TankDrive());
+    // setDefaultCommand(new CurvatureDrive());
   }
 
   public void setRightSpeed(double speed) {
@@ -157,5 +169,9 @@ public class DriveTrain extends Subsystem {
       return l1.getSelectedSensorPosition();
     else
       return r1.getSelectedSensorPosition();
+  }
+
+  public void log(){
+    SmartDashboard.putBoolean("QuickTurnMode", isQuickTurn);
   }
 }

@@ -39,9 +39,7 @@ public class CurvatureDRive extends Command {
     double angularPower;
     boolean overPower;
 
-    boolean isQuickTurn = Robot.oi.getYToggle();
-
-    if (isQuickTurn) {
+    if (Robot.drive.getIsQuickTurn()) {
       if (Math.abs(move) < quickStopThreshold) {
         quickStopAccumulator = (1 - quickStopAlpha) * quickStopAccumulator + quickStopAlpha * rotate * 2;
       }

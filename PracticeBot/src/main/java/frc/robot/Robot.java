@@ -44,8 +44,7 @@ public class Robot extends TimedRobot { // Essentially the "main method" of a ro
    */
   @Override
   public void robotPeriodic() {
-    Robot.oi.updateY();
-    Robot.oi.log();
+
   }
 
   /**
