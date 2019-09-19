@@ -68,10 +68,10 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     r3.follow(r1);
 
     pidController = new PIDController(.2, .2, .2, this, this);
-    pidController.setAbsoluteTolerance(1);
+    pidController.setAbsoluteTolerance(1);// raw sensor input
     pidController.setOutputRange(-.5, .5);
     pidController.disable();
-    
+
     initSensors();
   }
 
@@ -106,6 +106,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     l1.set(ControlMode.PercentOutput, speed);
   }
 
+  // units is in raw sensor tick
   public void setStraightPosition(double inches) {
     r1.set(ControlMode.Position, inches);
     l1.set(ControlMode.Position, inches);
@@ -166,6 +167,8 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
       return r1.getClosedLoopTarget();
   }
 
+  // WPI's PIDController
+
   public double getCurrentPosition(Hand hand) {
     if (hand.equals(Hand.kLeft))
       return l1.getSelectedSensorPosition();
@@ -173,19 +176,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
       return r1.getSelectedSensorPosition();
   }
 
-  public void log() {
-    SmartDashboard.putBoolean("QuickTurnMode", isQuickTurn);
-  }
-
-  public boolean getIsQuickTurn() {
-    return this.isQuickTurn;
-  }
-
-  public void setIsQuickTurn(boolean isQuickTurn) {
-    this.isQuickTurn = isQuickTurn;
-  }
-
-  //PIDController
+  // PIDController
   @Override
   public void pidWrite(double output) {
     l1.set(ControlMode.PercentOutput, output);
@@ -205,6 +196,18 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
   @Override
   public double pidGet() {
     return (r1.getSelectedSensorPosition() + l1.getSelectedSensorPosition()) / 2;
+  }
+
+  public void log() {
+    SmartDashboard.putBoolean("QuickTurnMode", isQuickTurn);
+  }
+
+  public boolean getIsQuickTurn() {
+    return this.isQuickTurn;
+  }
+
+  public void setIsQuickTurn(boolean isQuickTurn) {
+    this.isQuickTurn = isQuickTurn;
   }
 
 }

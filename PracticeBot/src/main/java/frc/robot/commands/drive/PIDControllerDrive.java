@@ -19,6 +19,7 @@ public class PIDControllerDrive extends Command {
 
   // Called just before this Command runs the first time
   @Override
+  //raw sensor ticks
   protected void initialize() {
     Robot.drive.pidController.setSetpoint(inches);
     Robot.drive.pidController.enable();
