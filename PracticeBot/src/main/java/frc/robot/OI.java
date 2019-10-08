@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import frc.robot.commands.LiftIntake;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.drive.PIDControllerDrive;
 import frc.robot.commands.drive.PIDPositionDrive;
 import frc.robot.commands.drive.ToggleQuickTurn;
@@ -26,13 +26,18 @@ public class OI {
     * using Driver Station
     */
    public VortxController main = new VortxController(RobotMap.Controller.MAIN);
+   public VortxController co = new VortxController(RobotMap.Controller.CO);
 
    public OI() {
-      main.b.whenPressed(new ToggleQuickTurn());
-      main.a.whenPressed(new PIDPositionDrive(100, .5, .5, .5));
-      main.x.whenPressed(new LiftIntake(Direction.Down));
-      main.y.whenPressed(new LiftIntake(Direction.Up));
-      main.start.whenPressed(new PIDControllerDrive(10));
+      co.b.whenPressed(new ToggleIntake());
+   }
+
+   public double getShooterRollValue() {
+      return -co.getY(Hand.kRight);
+   }
+
+   public double getShooterLiftValue() {
+      return -co.getY(Hand.kLeft);
    }
 
    public double getDriveValue() {

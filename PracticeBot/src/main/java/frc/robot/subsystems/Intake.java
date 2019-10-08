@@ -9,25 +9,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
 
 /**
  * Pneumatic Intake on Tempest
  */
 public class Intake extends Subsystem {
-  Solenoid intakeSolenoid = new Solenoid(RobotMap.Pneumatics.intake);
-  
-  public Intake(){
-    intakeSolenoid = new Solenoid(RobotMap.Pneumatics.intake);
-		liftUp();
-  }
-  
-  public void liftUp() {
+  Solenoid intakeSolenoid = new Solenoid(1);
+
+  public Intake() {
     intakeSolenoid.set(false);
   }
 
-  public void liftDown(){
-    intakeSolenoid.set(true);
+  public void lift() {
+    intakeSolenoid.set(!intakeSolenoid.get());
+
   }
 
   @Override

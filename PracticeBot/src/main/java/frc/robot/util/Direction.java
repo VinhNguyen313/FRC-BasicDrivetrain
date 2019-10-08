@@ -8,5 +8,5 @@
 package frc.robot.util;
 
 public enum Direction {
-    Up,Down,Left,Right;
+    Up,Down,Left,Right,In,Out;
 }

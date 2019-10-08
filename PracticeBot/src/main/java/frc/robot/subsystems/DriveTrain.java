@@ -50,7 +50,6 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     r1 = new WPI_TalonSRX(RobotMap.Drive.R1);
     r2 = new WPI_TalonSRX(RobotMap.Drive.R2);
     r3 = new WPI_TalonSRX(RobotMap.Drive.R3);
-
     /*
      * The right motors are inverted because for the Robot to move in one direction,
      * the motors on different sides have to spin in opposite directions.

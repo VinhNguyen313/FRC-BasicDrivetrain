@@ -31,10 +31,18 @@ public class RobotMap {
     public static final int L3 = 13;
 
   }
+  
+  public static class Shooter {
+    public static final int left = 7;
+    public static final int right = 2;
+	  public static final int lift = 69;
+
+  }
 
   public static class Controller {
     // These values can be found using your Driver Station.
     public static final int MAIN = 0;
+    public static final int CO = 1;
 
   }
 

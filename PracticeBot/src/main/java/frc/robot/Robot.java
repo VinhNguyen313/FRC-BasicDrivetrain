@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /**
  * If you change the name of this class or the package after creating this
@@ -22,6 +23,8 @@ public class Robot extends TimedRobot { // Essentially the "main method" of a ro
   public static DriveTrain drive;
   public static OI oi;
   public static Intake intake;
+  public static Shooter shooter;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -31,6 +34,8 @@ public class Robot extends TimedRobot { // Essentially the "main method" of a ro
     drive = new DriveTrain();
     oi = new OI();
     intake = new Intake();
+    shooter = new Shooter();
+    
   }
 
   /**
@@ -44,7 +49,7 @@ public class Robot extends TimedRobot { // Essentially the "main method" of a ro
    */
   @Override
   public void robotPeriodic() {
-
+    drive.log();
   }
 
   /**
