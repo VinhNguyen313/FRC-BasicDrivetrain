@@ -16,6 +16,7 @@ public class ShooterLift extends Command {
   Direction dir;
 
   public ShooterLift() {
+    requires(Robot.shooter);
   }
 
   // Called just before this Command runs the first time

@@ -27,15 +27,15 @@ public class RobotMap {
     public static final int R3 = 12;
 
     public static final int L1 = 4;
-    public static final int L2 = 6;
-    public static final int L3 = 13;
+    public static final int L2 = 5;
+    public static final int L3 = 3;
 
   }
   
   public static class Shooter {
     public static final int left = 7;
     public static final int right = 2;
-	  public static final int lift = 69;
+	  public static final int lift = 8;
 
   }
 
@@ -47,7 +47,7 @@ public class RobotMap {
   }
 
   public static class Constants{
-    public static final int ticksPerInch = 55;//54.7725
+    public static final double InchesPerTick = .00309196;
   }
 
   public static class Pneumatics{

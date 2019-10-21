@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.drive.PIDControllerDrive;
 import frc.robot.commands.drive.PIDPositionDrive;
-import frc.robot.commands.drive.ToggleQuickTurn;
-import frc.robot.util.Direction;
 import frc.robot.util.VortxController;
 
 /**
@@ -30,6 +28,7 @@ public class OI {
 
    public OI() {
       co.b.whenPressed(new ToggleIntake());
+      co.a.whenPressed(new PIDControllerDrive(50));
    }
 
    public double getShooterRollValue() {

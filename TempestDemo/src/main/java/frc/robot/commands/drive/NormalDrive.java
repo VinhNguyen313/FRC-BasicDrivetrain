@@ -7,53 +7,38 @@
 
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
-public class PIDPositionDrive extends Command {
-  public double kP, kI, kD, inches;
-
-  public PIDPositionDrive(double inches, double kP, double kI, double kD) {
-    requires(Robot.drive);
-    this.inches = inches/RobotMap.Constants.InchesPerTick;
-    this.kP = kP;
-    this.kI = kI;
-    this.kD = kD;
+public class NormalDrive extends Command {
+  public NormalDrive() {
+   requires(Robot.drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.drive.configPID(kP, kI, kD);
-    Robot.drive.setStraightPosition(this.inches);
-    SmartDashboard.putNumber("Inches Target",this.inches);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double move = Robot.oi.getDriveValue();
+    double rotateValue = Robot.oi.getTurnValue();
+    Robot.drive.setLeftSpeed(move + rotateValue);
+    Robot.drive.setRightSpeed(move - rotateValue);
+	
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double leftError = Math
-        .abs(Robot.drive.getCurrentPosition(Hand.kLeft) - Robot.drive.getClosedLoopTarget(Hand.kLeft));
-    double rightError = Math
-        .abs(Robot.drive.getCurrentPosition(Hand.kRight) - Robot.drive.getClosedLoopTarget(Hand.kRight));
-    if (leftError < 500 && rightError < 500)
-      return true;
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drive.setLeftSpeed(0);
-    Robot.drive.setRightSpeed(0);
   }
 
   // Called when another command which requires one or more of the same

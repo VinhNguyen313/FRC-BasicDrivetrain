@@ -12,15 +12,16 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.drive.ArcadeDrive;;
+import frc.robot.commands.drive.ArcadeDrive;
+import frc.robot.commands.drive.NormalDrive;;
 
 /**
  * This substystem is used to model the characteristics and capabilities of the
@@ -29,7 +30,7 @@ import frc.robot.commands.drive.ArcadeDrive;;
 public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private boolean isQuickTurn = false;
+  private boolean isQuickTurn = true;
 
   // Must have CTRE libraries installed for these to work.
   WPI_TalonSRX l1;
@@ -66,7 +67,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     r2.follow(r1);
     r3.follow(r1);
 
-    pidController = new PIDController(.2, .2, .2, this, this);
+    pidController = new PIDController(2, 0, 0, this, this);
     pidController.setAbsoluteTolerance(1);// raw sensor input
     pidController.setOutputRange(-.5, .5);
     pidController.disable();
@@ -82,9 +83,11 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
      */
 
     // Pick one , comment the unpicked out.
-    setDefaultCommand(new ArcadeDrive());
+    // setDefaultCommand(new ArcadeDrive());
     // setDefaultCommand(new TankDrive());
-    // setDefaultCommand(new CurvatureDrive());
+    // setDefaultCommand(new CurvatureDRive());
+    setDefaultCommand(new NormalDrive());
+
   }
 
   public void setRightSpeed(double speed) {
@@ -108,7 +111,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
   // units is in raw sensor tick
   public void setStraightPosition(double inches) {
     r1.set(ControlMode.Position, inches);
-    l1.set(ControlMode.Position, inches);
+    l1.set(ControlMode.PercentOutput,r1.get());
   }
 
   public void initSensors() {
@@ -129,8 +132,8 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     r1.setNeutralMode(NeutralMode.Brake);
 
     // 0-> slotID
-    r1.configAllowableClosedloopError(0, RobotMap.Constants.ticksPerInch);
-    l1.configAllowableClosedloopError(0, RobotMap.Constants.ticksPerInch);
+    r1.configAllowableClosedloopError(0, (int) (10/RobotMap.Constants.InchesPerTick));
+    l1.configAllowableClosedloopError(0, (int) (10/RobotMap.Constants.InchesPerTick));
 
   }
 
@@ -174,6 +177,12 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     else
       return r1.getSelectedSensorPosition();
   }
+    public void zeroCurrentPosition(Hand hand) {
+    if (hand.equals(Hand.kLeft))
+      l1.setSelectedSensorPosition(0);
+    else
+      r1.setSelectedSensorPosition(0);
+  }
 
   // PIDController
   @Override
@@ -194,11 +203,11 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
 
   @Override
   public double pidGet() {
-    return (r1.getSelectedSensorPosition() + l1.getSelectedSensorPosition()) / 2;
+    return r1.getSelectedSensorPosition();
   }
 
   public void log() {
-    SmartDashboard.putBoolean("QuickTurnMode", isQuickTurn);
+    SmartDashboard.putNumber("DriveEncoder Val", r1.getSelectedSensorPosition()*RobotMap.Constants.InchesPerTick);
   }
 
   public boolean getIsQuickTurn() {

@@ -28,8 +28,7 @@ public class Shooter extends Subsystem {
     right = new WPI_TalonSRX(RobotMap.Shooter.right);
 
     right.follow(left);
-    right.setInverted(true);
-
+    
     lift = new WPI_TalonSRX(RobotMap.Shooter.lift);
 
   }
@@ -39,6 +38,7 @@ public class Shooter extends Subsystem {
   }
 
   public void setLiftSpeed(double speed) {
+    lift.set(ControlMode.PercentOutput, speed*.5);
   }
 
   @Override

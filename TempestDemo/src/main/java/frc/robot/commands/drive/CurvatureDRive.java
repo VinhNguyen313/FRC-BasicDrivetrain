@@ -34,7 +34,7 @@ public class CurvatureDRive extends Command {
     double rotate = VortxMath.applyDeadband(Robot.oi.getTurnValue(), .02);
 
     move = Math.copySign(move * move, move);
-    rotate = Math.copySign(rotate * rotate, rotate);
+    rotate = -Math.copySign(rotate * rotate, rotate);
 
     double angularPower;
     boolean overPower;
