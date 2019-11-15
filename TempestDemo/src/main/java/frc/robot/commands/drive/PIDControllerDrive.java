@@ -16,6 +16,7 @@ public class PIDControllerDrive extends Command {
   double inches;
 
   public PIDControllerDrive(double inches) {
+    requires(Robot.drive);
     this.inches = inches/RobotMap.Constants.InchesPerTick;
   }
 
@@ -44,14 +45,12 @@ public class PIDControllerDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.drive.setLeftSpeed(0);
-    Robot.drive.setRightSpeed(0);
+    Robot.drive.pidController.disable();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
