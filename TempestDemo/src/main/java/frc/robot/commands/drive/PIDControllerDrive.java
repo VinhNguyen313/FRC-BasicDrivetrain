@@ -26,26 +26,28 @@ public class PIDControllerDrive extends Command {
   protected void initialize() {
     Robot.drive.zeroCurrentPosition(Hand.kRight);
     Robot.drive.zeroCurrentPosition(Hand.kLeft);
-    
+    Robot.drive.pidController.setSetpoint(inches);
+    Robot.drive.pidController.enable();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.drive.pidController.setSetpoint(inches);
-    Robot.drive.pidController.enable();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.drive.pidController.onTarget();
+    return Robot.drive.pidController.onTarget()|| (Math.abs(Robot.oi.getDriveValue()) >= 0.03);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.drive.pidController.disable();
+    Robot.drive.setLeftSpeed(0);
+    Robot.drive.setRightSpeed(0);
+
   }
 
   // Called when another command which requires one or more of the same

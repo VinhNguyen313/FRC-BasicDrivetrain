@@ -59,10 +59,8 @@ public class ArcadeDrive extends Command {
         rightSpeed = move - rotate;
       }
     }
-    SmartDashboard.putNumber("Left Speed", leftSpeed);
     Robot.drive.setLeftSpeed(leftSpeed);
-
-    SmartDashboard.putNumber("Right Speed", rightSpeed);
+   
     Robot.drive.setRightSpeed(rightSpeed);
 
   }

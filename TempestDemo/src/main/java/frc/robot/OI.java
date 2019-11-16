@@ -28,7 +28,7 @@ public class OI {
 
    public OI() {
       co.b.whenPressed(new ToggleIntake());
-      co.a.whenPressed(new PIDControllerDrive(50));
+      co.a.whenPressed(new PIDControllerDrive(150));
    }
 
    public double getShooterRollValue() {

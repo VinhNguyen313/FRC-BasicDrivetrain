@@ -67,9 +67,9 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
     r2.follow(r1);
     r3.follow(r1);
 
-    pidController = new PIDController(2, 0, 0, this, this);
-    pidController.setAbsoluteTolerance(1);// raw sensor input
-    pidController.setOutputRange(-.5, .5);
+    pidController = new PIDController(2, 0, .75, this, this);
+    pidController.setAbsoluteTolerance(4096);// raw sensor input
+    pidController.setOutputRange(-1, 1);
     pidController.disable();
 
     initSensors();
@@ -83,10 +83,10 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
      */
 
     // Pick one , comment the unpicked out.
-    // setDefaultCommand(new ArcadeDrive());
+    setDefaultCommand(new ArcadeDrive());
     // setDefaultCommand(new TankDrive());
     // setDefaultCommand(new CurvatureDRive());
-    setDefaultCommand(new NormalDrive());
+    // setDefaultCommand(new NormalDrive());
 
   }
 
@@ -188,7 +188,7 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
   @Override
   public void pidWrite(double output) {
     l1.set(ControlMode.PercentOutput, output);
-    r1.set(ControlMode.PercentOutput, output);
+    r1.set(ControlMode.PercentOutput,output);
   }
 
   @Override
@@ -208,6 +208,8 @@ public class DriveTrain extends Subsystem implements PIDSource, PIDOutput {
 
   public void log() {
     SmartDashboard.putNumber("DriveEncoder Val", r1.getSelectedSensorPosition()*RobotMap.Constants.InchesPerTick);
+    SmartDashboard.putNumber("Left Speed", l1.get());
+    SmartDashboard.putNumber("Right Speed", r1.get());
   }
 
   public boolean getIsQuickTurn() {
